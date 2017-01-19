@@ -1,0 +1,745 @@
+/*==================================================================
+Category		Variable	Units
+Time			t		[ms]
+Voltage			v		[mV]
+Current			i		[mA/cm2] (distributed)
+					[nA] (point process)
+Concentration		ko, ki, etc.	[mM]
+Specific capacitance	cm		[uf/cm2]
+Length			diam, L		[um]
+Conductance		g		[S/cm2] (distributed)
+					[uS] (point process)
+Cytoplasmic resistivity	Ra		[ohm cm]
+Resistance		Ri( )		[1e+6 ohm]
+==================================================================
+Although mammals do not have a negative spike channel, a distantly 
+related member of the Kv family, the HERG potassium channel, has a 
+similar inversion of gating and inactivation kinetics and plays a 
+similar role in the heart.
+==================================================================
+Membrane potentials (Um) of oocytes from a given batch have been 
+shown to be similar, whilst a great variance exists between diffe-
+rent batches ranging from -30 to -70 mV, rarely -90 mV can be seen.
+From our experience, Um are most of the time around -55 mV.
+
+http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1193230/  (1984)
+The oocyte resting potential (measured with a single intracellular
+electrode) ranged from -40 to -60 mV. 
+==================================================================
+Equilibrium potentials for the main inorganic ions
+	experiment	calculated*	
+E_Na+	46...61		47...63.5	
+E_K+	-108...-95	-86.7...-92.4	
+E_Cl-	-14...-28	-16.4...-23.1	
+
+*(for Na+=90, K+=3, Cl-=95, T=20C)
+	extracell. conc. (mM) 	intracellular conc. (mM)
+Na+	90			10.4 +/- 3.3
+K+	3			108.6 +/- 12.2
+Cl-	95			43.5 +/- 5.8
+
+The oocyte membrane has a high input resistance that differs with
+oocyte batches and ranges from several 100 kOhm to 2 MOhm 
+and sometimes even more
+
+0.8e-4 S/cm2
+Oocyte membrane area A = 19 mm2 = 0.19 cm2
+total membrane conductance then = 0.16e-4 S
+total membrane resistance = 1/(0.16e-4) = 6.25 kOhm
+
+Both voltage-sensing and current-passing electrodes         
+were filled with 3 M KCl and had resistances of 0.2-1.0 MOhm.
+
+http://www.bio.miami.edu/tom/courses/protected/ECK/CH05/figure-05-08.jpg
+
+Temperature: 22 +/- 1 C
+
+==================
+w.m._weber_1999_bba.pdf
+
+The oocyte plasma membrane is highly folded into
+macro- and microvilli, thereby increasing the apparent
+surface area by a factor of 4. The actual surface
+area is reportedly between 18 mm2 [22] and 20 mm2
+[1] whilst capacitance measurements revealed values
+of 230 nF [23] and 220 nF [24^26]. The oocyte membrane
+has a high input resistance that differs with
+oocyte batches and ranges from several 100 kOhm to
+2 MOhm and sometimes even more [27].
+Membrane potentials (Um) of oocytes from a given
+batch have been shown to be similar, whilst a great
+variance exists between different batches ranging
+from -30 to -70 mV, rarely -90 mV can be seen.
+From our experience, Um are most of the time
+around -55 mV. Um is mainly a K. diffusion potential,
+yet the Na./K.-ATPase contributes significantly to Um
+
+Check: (compare with common value 1 uF/cm2)
+
+C = 225 nF = 0.225 uF
+A = 19 mm2
+A = pi*d^2 = 3.1415*(1...1.3)^2 mm2 = 3.14...5.3 mm2 (*factor of 4) 
+= 13...21 mm2 (fits 19mm2) = 0.01*(13...21) cm2 = 0.13...0.21 cm2
+
+19 mm2 corresponds to 1.23 mm diameter of oocyte (taking into account a factor of 4)
+
+(0.225 uF)/(0.19 cm2) = 1.18 uF/cm2 (ok!)
+
+without factor of 4 to get the same capacity we need:
+specific capacity = 4.0 uF/cm2
+
+
+https://www.academia.edu/17052512/Molecular_Interactions_Between_Two_Long-QT_Syndrome_Gene_Products_HERG_and_KCNE2_Rationalized_by_In_Vitro_and_In_Silico_Analysis?auto=download
+
+*/
+
+//create fname
+strdef fname 
+
+objectvar stim1
+/*
+objectvar stim2
+objectvar stim3
+objectvar stim4
+*/
+
+ p1_best = 1
+ p2_best = 1
+ p3_best = 1
+ p4_best = 1
+ p5_best = 1
+ p6_best = 1
+ p7_best = 1
+ p8_best = 1
+ p9_best = 1
+p10_best = 1
+p11_best = 1
+p12_best = 1
+p13_best = 1
+p14_best = 1
+p15_best = 1
+p16_best = 1
+
+
+gmax_KvEXP2_best = 0.004908
+gmax_pas_best    = 2.22e-5 // [S/cm2] //0.0003*1.8*0.1*0.3//0.5
+gbar_Kv_best     = 0.0001 
+gmax_CaL_best    = 0.00035//*1.5
+eca_best         = 133 //mV
+ek_best			 = -77 //-77 //-77*0.6 //mV
+e_pas_best 		 = -40//-50 //-40
+start_time_best  = 90 //90//700-5 //ms
+start_time = start_time_best
+
+/*
+... equilibrium potential for K+ in the presence of 5 and 20 mM K+ 
+and at the intracellular [K+] used here is -84 and -49 mV, respectively ...
+(2002 - K+ currents in body wall muscle cells from C. elegans.pdf)
+*/
+
+
+
+//#2
+gmax_KvEXP2_best = 0.004908*0.1*1.5//!!
+gmax_CaL_best    = 0.00035*0.2*1.5//!!
+
+//#3
+gmax_KvEXP2_best = 0.004908*0.1*1.5//!!
+gmax_CaL_best    = 0.00035*0.2*1.2//!!
+
+//#4
+/*
+gmax_KvEXP2_best = 0.004908*0.4//!!
+gmax_CaL_best    = 0.00035*0.6//!!
+e_pas_best 		 = -50*/
+
+//#1
+gmax_KvEXP2_best = 0.004908*2.0				*1.6 *0.05//3.0//1.7!!
+gmax_CaL_best    = 0.00035*0.2*0.9*0.5*0.8	*1.25 * 1.2 //!!
+gbar_Kv_best = 0.0001*0
+
+
+
+diff_curr = 0
+diff_best = 1000000
+diff_curr2 = 0
+
+n_steps = 1000
+
+gmax_KvEXP2_best = 0.00769
+gmax_CaL_best    = 0.000236
+gmax_pas_best    = 0.000007
+ek_best			 = -93.05
+eca_best         =  37.17
+e_pas_best 		 = -37.24
+
+	 p1_KvEXP2 =  p1_best = 0.653243
+	 p2_KvEXP2 =  p2_best = 0.654510
+	 p3_KvEXP2 =  p3_best = 0.972301
+	 p4_KvEXP2 =  p4_best = 0.667357
+	 p5_KvEXP2 =  p5_best = 0.139786
+	 p6_KvEXP2 =  p6_best = 0.517572
+	 p7_KvEXP2 =  p7_best = 1.114687
+	 p8_KvEXP2 =  p8_best = 0.112348
+	 p9_KvEXP2 =  p9_best = 0.736927
+	p10_KvEXP2 = p10_best = 3.586839
+	p11_KvEXP2 = p11_best = 1.651840
+	p12_KvEXP2 = p12_best = 1.348848
+	p13_KvEXP2 = p13_best = 9.908865
+	p14_KvEXP2 = p14_best = 1.644896
+	p15_KvEXP2 = p15_best = 0.853175
+	p16_KvEXP2 = p16_best = 0.144016
+	
+	start_time = start_time_best = 95.243280
+
+create soma 
+access soma
+
+Ra = 180 // Ohm*cm
+
+proc init_cell() { // $1=g_pas, $2=e_pas, $3=gbar_Kv, $4=ek, $5 = gmax_CaL, $5=eca 
+
+    soma {
+	nseg = 3 //3
+	diam = 7.6 //12.0 //um 
+	L    = 43.0 //58.0//58.0 //um
+	
+	/////////////////////////////////////
+	// C. elegans pharyngeal muscle with 
+	// Kv, CaL and leak(pas) channels
+	/////////////////////////////////////
+	
+	//insert k_ion
+	//insert ca_ion
+	
+//	insert hh { gnabar_hh=0.0 gkbar_hh=0.00002 gl_hh=0.0003*0 el_hh=-59}
+
+	insert pas
+	g_pas = gmax_pas_best //7.0e-05 // 0.8e-04   // this one - works
+	e_pas = e_pas_best // -43 //-55.0 //-43.0                         
+	
+//	insert Kv
+//	gbar_Kv = gbar_Kv_best
+//	ek = ek_best //-117
+
+	insert KvEXP2
+	gmax_KvEXP2 = gmax_KvEXP2_best // 0*0.0022 // 0.004// (S/cm2)  // this one - works
+	ek = ek_best // -96.0 //-77.0      // this one - works
+/*
+	 p1_KvEXP2 = 0.359403 
+	 p2_KvEXP2 = 0.298693 
+	 p3_KvEXP2 = 0.061856 
+	 p4_KvEXP2 = 0.081842 
+	 p5_KvEXP2 = 1.234093 
+	 p6_KvEXP2 = 0.135375 
+	 p7_KvEXP2 = 0.319224 
+	 p8_KvEXP2 = 0.142053 
+	 p9_KvEXP2 = 13.838528
+	p10_KvEXP2 = 0.099305 
+	p11_KvEXP2 = 10.434226
+	p12_KvEXP2 = 2.837662 
+	p13_KvEXP2 = 0.565252 
+	p14_KvEXP2 = 0.939058 
+	p15_KvEXP2 = 0.937146 
+	p16_KvEXP2 = 1.963792 
+/**/
+
+	
+	v_init = -50.0 // initial voltage
+	
+
+	insert CaL
+	gmax_CaL = gmax_CaL_best //0.0015  // 0.0015
+	
+//	eca_CaL = 100 // this option doesn't affect anything in current context
+	eca = eca_best //70 //123.0// 132.0 (default) // this one - works
+	
+//	insert CaT
+//	gmax_CaT = 0.0005	
+	
+	} /////////////////////////////////////
+
+	access soma
+	
+//	current injection
+
+/*
+	stim1 = new IClamp(0.5)
+	stim1.del = start_time_best //ms
+	stim1.dur = 1 //ms
+	stim1.amp = 0.5*0.2 *3//nA // was 0.3, now 0.2
+*/	
+	
+	stim1 = new IClamp(0.5)
+	stim1.del = start_time_best //ms
+	stim1.dur = 1200 //ms
+	stim1.amp = 0.02//nA // was 0.3, now 0.2	
+/*	
+	stim2 = new IClamp(0.5)
+	stim2.del = start_time_best+1 //ms
+	stim2.dur = 1 //ms
+	stim2.amp = 1.0*0.2 //nA	
+
+	stim3 = new IClamp(0.5)
+	stim3.del = start_time_best+2 //ms
+	stim3.dur = 1 //ms
+	stim3.amp = 1.5*0.2 //nA		
+
+	stim4 = new IClamp(0.5)
+	stim4.del = start_time_best+3 //ms
+	stim4.dur = 1 //ms
+	stim4.amp = 2.0*0.2 //nA	
+*/	
+/*
+	objectvar stim1
+	stim1 = new SEClamp(0.5)
+	stim1.dur1 = start_time_best //ms
+	stim1.amp1 = -50 //mV
+	stim1.dur2 = 1 //ms
+	stim1.amp2 = -70  //mV
+	stim1.dur3 = 1 //ms
+	stim1.amp3 = -10  //mV	
+	stim1.rs = 0.01 //MOhm
+*/
+	// voltage clamp
+/*
+	objectvar stim1
+	stim1 = new VClamp(0.5)
+	
+	stim1.dur[0] = 800 //ms // 100
+	stim1.amp[0] = 20  //mV // -50
+
+	stim1.dur[1] = 40 //ms //150 
+	stim1.amp[1] = -80  //mV		<===== ! ! !
+
+	stim1.dur[2] = 160 //ms //100
+	stim1.amp[2] = 50 //-50 //mV
+
+	stim1.rstim = 1 //MOhm
+	
+	stim1.tau1 = 0.35 // 0.55 //ms (default = 0.001)
+	stim1.tau2 = 0
+*/	
+
+}
+
+
+init_cell()
+
+	//printf("\n===================\n")
+	objref r
+	r = new Random()
+	r.uniform(0,100)
+	
+	//for ii = 1, 10 print int(r.repick())
+
+
+proc single_run() {  local i
+
+	if($2 == 1) {
+    sprint(fname,"_log.txt")
+    wopen(fname)
+	}
+	
+	diff_curr = 0
+	curr_value = 0
+	real_value = 0
+	do_calc_diff = 0
+	cnt = 0
+	
+	fprint("time\tsoma.v(0.5)\tstim1.i\tsoma.ica(0.5)\tsoma.ik(0.5)\n") 
+
+    for i = /*-3000*/1, $1  {
+		fadvance() 
+		
+		do_calc_diff = 0
+	
+		if($2 == 1) {
+			
+			if(i>0) { 
+				cnt = cnt + 1
+				if(cnt == 100) {
+					//fprint("%f\t%f\n",t,soma.v(0.5)) 
+					fprint("%f\t%f\t%f\t%f\t%f\n",i*0.02,soma.v(0.5),stim1.i,soma.ica(0.5),soma.ik(0.5)) 
+					//fprint("%f\n",stim1.i) 
+					//fprint("%f\n",soma.ica(0.5)*22.0) 
+					//fprint("%f\n",soma.ik(0.5)*22.0) 
+					cnt = 0
+				}
+			}
+		}
+		
+		i = i-1
+		
+		if( i ==     0 ) { do_calc_diff = 1 real_value = -50.00 } // 
+		if( i ==   500 ) { do_calc_diff = 1 real_value = -50.00 } // 0.010 s
+		if( i ==  1000 ) { do_calc_diff = 1 real_value = -50.00 } // 
+		if( i ==  1500 ) { do_calc_diff = 1 real_value = -50.00 } // 
+		if( i ==  2000 ) { do_calc_diff = 1 real_value = -50.00 } // 
+		if( i ==  2500 ) { do_calc_diff = 1 real_value = -49.42 } // 
+		if( i ==  3000 ) { do_calc_diff = 1 real_value = -48.13 } // 
+		if( i ==  3500 ) { do_calc_diff = 1 real_value = -46.40 } // 
+		if( i ==  4000 ) { do_calc_diff = 1 real_value = -42.95 } // 
+		if( i ==  4500 ) { do_calc_diff = 1 real_value = -33.02 } // 
+		if( i ==  5000 ) { do_calc_diff = 1 real_value =  -2.80 } // 0.100 s
+		
+		if( i ==  5500 ) { do_calc_diff = 1 real_value =  27.41 } // 
+		if( i ==  6000 ) { do_calc_diff = 1 real_value =  33.74 } //  
+		if( i ==  6500 ) { do_calc_diff = 1 real_value =  33.02 } // 
+		if( i ==  7000 ) { do_calc_diff = 1 real_value =  31.72 } // 
+		if( i ==  7500 ) { do_calc_diff = 1 real_value =  27.41 } // 
+		if( i ==  8000 ) { do_calc_diff = 1 real_value =  26.40 } // 
+		if( i ==  8500 ) { do_calc_diff = 1 real_value =  24.96} //
+		if( i ==  9000 ) { do_calc_diff = 1 real_value =  22.66 } //
+		if( i ==  9500 ) { do_calc_diff = 1 real_value =  20.50 } //
+		if( i == 10000 ) { do_calc_diff = 1 real_value =  18.20 } //
+		
+		if( i == 10500 ) { do_calc_diff = 1 real_value =  14.31 } // 
+		if( i == 11000 ) { do_calc_diff = 1 real_value =   9.42 } //  
+		if( i == 11500 ) { do_calc_diff = 1 real_value =  -8.27 } // 
+		if( i == 12000 ) { do_calc_diff = 1 real_value = -69.42 } // 
+		if( i == 12500 ) { do_calc_diff = 1 real_value = -69.85 } // 
+		if( i == 13000 ) { do_calc_diff = 1 real_value = -69.57 } // 
+		if( i == 13500 ) { do_calc_diff = 1 real_value = -68.70 } //
+		if( i == 14000 ) { do_calc_diff = 1 real_value = -67.41 } //
+		if( i == 14500 ) { do_calc_diff = 1 real_value = -65.68 } //
+		if( i == 15000 ) { do_calc_diff = 1 real_value = -63.96 } //
+	 	
+		if( i == 15500 ) { do_calc_diff = 1 real_value = -62.09 } // 
+		if( i == 16000 ) { do_calc_diff = 1 real_value = -60.50 } //  
+		if( i == 16500 ) { do_calc_diff = 1 real_value = -59.06 } // 
+		if( i == 17000 ) { do_calc_diff = 1 real_value = -57.62 } // 
+		if( i == 17500 ) { do_calc_diff = 1 real_value = -56.33 } // 
+		if( i == 18000 ) { do_calc_diff = 1 real_value = -55.32 } // 
+		if( i == 18500 ) { do_calc_diff = 1 real_value = -54.50 } //
+		if( i == 19000 ) { do_calc_diff = 1 real_value = -53.88 } //
+		if( i == 19500 ) { do_calc_diff = 1 real_value = -53.31 } //
+		if( i == 20000 ) { do_calc_diff = 1 real_value = -52.73 } // 
+
+		if( i == 20500 ) { do_calc_diff = 1 real_value = -52.16 } // 
+		if( i == 21000 ) { do_calc_diff = 1 real_value = -51.58 } //  
+		if( i == 21500 ) { do_calc_diff = 1 real_value = -51.15 } // 
+		if( i == 22000 ) { do_calc_diff = 1 real_value = -50.86 } // 
+		if( i == 22500 ) { do_calc_diff = 1 real_value = -50.57 } // 
+		if( i == 23000 ) { do_calc_diff = 1 real_value = -50.29 } // 
+		if( i == 23500 ) { do_calc_diff = 1 real_value = -50.00 } //
+		if( i == 24000 ) { do_calc_diff = 1 real_value = -50.00 } //
+		if( i == 24500 ) { do_calc_diff = 1 real_value = -50.00 } //
+		if( i == 25000 ) { do_calc_diff = 1 real_value = -50.00 } //		
+
+		i = i+1
+		
+		if(do_calc_diff > 0 ) { 
+			curr_value = soma.v(0.5) //stim1.i/1000
+			
+			//I:\BACKUP\Palyanov\WORK\2005\fit_diffur\old_but_good_src =)
+			//difc+=fabs(u1real[i]*log((u1[i]+1e-30)/(u1real[i]+1e-30)));
+			
+			/*
+			if( curr_value - 1 < 0 ) { 
+			if( real_value - 1 < 0 ) {
+				diff_curr = diff_curr + abs( real_value * log ( abs(curr_value - 1) / abs(real_value - 1) ) ) 
+			} }
+			
+			if( curr_value - 1 > 0 ) {
+				diff_curr = diff_curr + 100
+			}*/
+			
+			diff_curr = diff_curr + abs(curr_value - real_value)
+		}
+	}
+	
+	if($2 == 1) {
+		//fprint("vclamp_res=%f MOhm, p11= %f, p13= %f, p15= %f, p16= %f, gmax_KvEXP2 = %f S/cm2, diff_best = %f \n",/*stim1.rs*/1.0, p11_best,  p13_best, p15_best, p16_best, gmax_KvEXP2, diff_best)
+		wopen()
+	}
+}
+
+
+
+
+	dt = 0.02 //ms // 0.2 ms
+
+    sprint(fname,"_log.txt")
+    wopen(fname)
+
+	r.uniform(0,100)
+	//r.repick()
+
+	//for ii = 1, 1 print int(r.repick())
+/*
+	for kt_i = 1, 5 { //@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+		
+
+	if(kt_i== 1) {
+		exp_arg = 0
+
+		r2 = 0
+		
+		kt = 0.1
+
+		gmax_KvEXP2 = gmax_KvEXP2_best
+		g_pas       = gmax_pas_best
+		//gbar_Kv		= gbar_Kv_best
+		gmax_CaL	= gmax_CaL_best	
+		eca			= eca_best
+		ek			= ek_best
+		e_pas 		= e_pas_best
+		
+		 p1_KvEXP2 = p1_best
+		 p2_KvEXP2 = p2_best
+		 p3_KvEXP2 = p3_best
+		 p4_KvEXP2 = p4_best
+		 p5_KvEXP2 = p5_best
+		 p6_KvEXP2 = p6_best
+		 p7_KvEXP2 = p7_best
+		 p8_KvEXP2 = p8_best
+		 p9_KvEXP2 = p9_best
+		p10_KvEXP2 = p10_best
+		p11_KvEXP2 = p11_best		
+		p12_KvEXP2 = p12_best		
+		p13_KvEXP2 = p13_best		
+		p14_KvEXP2 = p14_best
+		p15_KvEXP2 = p15_best
+		p16_KvEXP2 = p16_best
+
+	//	stim1.dur1 = start_time_best
+		stim1.del = start_time_best   //ms
+	//	stim2.del = start_time_best+1 //ms
+	//	stim3.del = start_time_best+2 //ms
+	//	stim4.del = start_time_best+3 //ms
+		
+		init()
+		single_run(25100,0) // not saving to file	
+		// diff_curr is calculated as a result
+		
+		diff_old = diff_best = diff_curr	
+			
+		printf("\ndiff_curr = %f, kt = %f\n",diff_curr,kt)
+	}
+	
+		
+
+	r.uniform(0,100)
+
+	for iter_cnt = 0, 10000 { ///////////// MAIN LOOP ///////////////
+
+		gmax_KvEXP2_old = gmax_KvEXP2
+		gmax_pas_old    = g_pas
+		//gbar_Kv_old		= gbar_Kv
+		gmax_CaL_old	= gmax_CaL
+		eca_old			= eca
+		ek_old			= ek
+		e_pas_old		= e_pas
+		start_time_old	= start_time
+		
+		 p1_KvEXP2_old =  p1_KvEXP2
+		 p2_KvEXP2_old =  p2_KvEXP2
+		 p3_KvEXP2_old =  p3_KvEXP2
+		 p4_KvEXP2_old =  p4_KvEXP2
+		 p5_KvEXP2_old =  p5_KvEXP2
+		 p6_KvEXP2_old =  p6_KvEXP2
+		 p7_KvEXP2_old =  p7_KvEXP2
+		 p8_KvEXP2_old =  p8_KvEXP2
+		 p9_KvEXP2_old =  p9_KvEXP2
+		p10_KvEXP2_old = p10_KvEXP2
+		p11_KvEXP2_old = p11_KvEXP2
+		p12_KvEXP2_old = p12_KvEXP2
+		p13_KvEXP2_old = p13_KvEXP2
+		p14_KvEXP2_old = p14_KvEXP2
+		p15_KvEXP2_old = p15_KvEXP2
+		p16_KvEXP2_old = p16_KvEXP2		
+		
+		diff_old = diff_curr
+	
+
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) { gmax_KvEXP2 = gmax_KvEXP2*(0.995) } if(r2>67) { gmax_KvEXP2 = gmax_KvEXP2*(1.005) } }
+		//if(r.repick()<20) { r2 = r.repick() if(r2<33) { gbar_Kv 	= gbar_Kv    *(0.995) } if(r2>67) { gbar_Kv		= gbar_Kv    *(1.005) } }
+		if(r.repick()<20) { r2 = r.repick() if(r2<33) { g_pas       = g_pas		 *(0.995) } if(r2>67) { g_pas       = g_pas      *(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) { gmax_CaL 	= gmax_CaL	 *(0.995) } if(r2>67) { gmax_CaL	= gmax_CaL	 *(1.005) } }
+		if(r.repick()<20) { r2 = r.repick() if(r2<33) { eca      	= eca		 *(0.995) } if(r2>67) { eca  	    = eca      	 *(1.005) } }
+		if(r.repick()<20) { r2 = r.repick() if(r2<33) { ek      	= ek		 *(0.995) } if(r2>67) { ek  	    = ek      	 *(1.005) } }
+		if(r.repick()<20) { r2 = r.repick() if(r2<33) { e_pas      	= e_pas		 *(0.995) } if(r2>67) { e_pas  	    = e_pas      *(1.005) } }
+		if(r.repick()<20) { r2 = r.repick() if(r2<33) { start_time 	= start_time *(0.995) } if(r2>67) { start_time  = start_time *(1.005) } }
+		
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p1_KvEXP2 =   p1_KvEXP2*(0.995) } if(r2>67) {   p1_KvEXP2 =   p1_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p2_KvEXP2 =   p2_KvEXP2*(0.995) } if(r2>67) {   p2_KvEXP2 =   p2_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p3_KvEXP2 =   p3_KvEXP2*(0.995) } if(r2>67) {   p3_KvEXP2 =   p3_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p4_KvEXP2 =   p4_KvEXP2*(0.995) } if(r2>67) {   p4_KvEXP2 =   p4_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p5_KvEXP2 =   p5_KvEXP2*(0.995) } if(r2>67) {   p5_KvEXP2 =   p5_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p6_KvEXP2 =   p6_KvEXP2*(0.995) } if(r2>67) {   p6_KvEXP2 =   p6_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p7_KvEXP2 =   p7_KvEXP2*(0.995) } if(r2>67) {   p7_KvEXP2 =   p7_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p8_KvEXP2 =   p8_KvEXP2*(0.995) } if(r2>67) {   p8_KvEXP2 =   p8_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {   p9_KvEXP2 =   p9_KvEXP2*(0.995) } if(r2>67) {   p9_KvEXP2 =   p9_KvEXP2*(1.005) } }
+		
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p10_KvEXP2 =  p10_KvEXP2*(0.995) } if(r2>67) {  p10_KvEXP2 =  p10_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p11_KvEXP2 =  p11_KvEXP2*(0.995) } if(r2>67) {  p11_KvEXP2 =  p11_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p12_KvEXP2 =  p12_KvEXP2*(0.995) } if(r2>67) {  p12_KvEXP2 =  p12_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p13_KvEXP2 =  p13_KvEXP2*(0.995) } if(r2>67) {  p13_KvEXP2 =  p13_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p14_KvEXP2 =  p14_KvEXP2*(0.995) } if(r2>67) {  p14_KvEXP2 =  p14_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p15_KvEXP2 =  p15_KvEXP2*(0.995) } if(r2>67) {  p15_KvEXP2 =  p15_KvEXP2*(1.005) } }
+		if(r.repick()<50) { r2 = r.repick() if(r2<33) {  p16_KvEXP2 =  p16_KvEXP2*(0.995) } if(r2>67) {  p16_KvEXP2 =  p16_KvEXP2*(1.005) } }
+	//	if(r.repick()<50) { r2 = r.repick() if(r2<33) { gmax_KvEXP2 = gmax_KvEXP2*(0.995) } if(r2>67) { gmax_KvEXP2 = gmax_KvEXP2*(1.005) } }
+	//	if(r.repick()<50) { r2 = r.repick() if(r2<33) { g_pas       =       g_pas*(0.995) } if(r2>67) { g_pas       = g_pas      *(1.005) } }		
+		
+	//	stim1.dur1 = start_time_best
+		stim1.del = start_time   //ms
+	//	stim2.del = start_time+1 //ms
+	//	stim3.del = start_time+2 //ms
+	//	stim4.del = start_time+3 //ms	
+	
+		init()
+		single_run(25100,0) // not saving to file	
+	
+
+		//printf("diff_curr = %7.2f diff_best = %7.2f r.uniform(0,100) = %f\n",diff_curr,diff_best, r.uniform(0,100))		
+		
+		
+		exp_arg = (diff_old-diff_curr)/10 // <======= ! ! ! ! !
+						
+		if(exp_arg>0) exp_arg = 0
+		
+		if( r.repick() < 100*exp( exp_arg ) ) {
+		
+			if(diff_curr < diff_best) {
+				
+				diff_best = diff_curr
+				
+				gmax_KvEXP2_best = gmax_KvEXP2		
+				gmax_pas_best 	 = g_pas
+				//gbar_Kv_best	 = gbar_Kv
+				gmax_CaL_best	 = gmax_CaL
+				eca_best		 = eca
+				ek_best		 	 = ek
+				e_pas_best		 = e_pas
+				start_time_best	 = start_time
+				
+				 p1_best =  p1_KvEXP2
+				 p2_best =  p2_KvEXP2
+				 p3_best =  p3_KvEXP2
+				 p4_best =  p4_KvEXP2
+				 p5_best =  p5_KvEXP2
+				 p6_best =  p6_KvEXP2
+				 p7_best =  p7_KvEXP2
+				 p8_best =  p8_KvEXP2
+				 p9_best =  p9_KvEXP2
+				p10_best = p10_KvEXP2
+				p11_best = p11_KvEXP2
+				p12_best = p12_KvEXP2
+				p13_best = p13_KvEXP2
+				p14_best = p14_KvEXP2			
+				p15_best = p15_KvEXP2
+				p16_best = p16_KvEXP2				
+			}
+		 
+		} else {
+			
+			gmax_KvEXP2 = gmax_KvEXP2_old
+			g_pas       = gmax_pas_old
+			//gbar_Kv		= gbar_Kv_old
+			gmax_CaL	= gmax_CaL_old
+			eca			= eca_old
+			ek			= ek_old
+			e_pas 		= e_pas_old
+			start_time	= start_time_old
+			
+			 p1_KvEXP2 =  p1_KvEXP2_old
+			 p2_KvEXP2 =  p2_KvEXP2_old
+			 p3_KvEXP2 =  p3_KvEXP2_old
+			 p4_KvEXP2 =  p4_KvEXP2_old
+			 p5_KvEXP2 =  p5_KvEXP2_old
+			 p6_KvEXP2 =  p6_KvEXP2_old
+			 p7_KvEXP2 =  p7_KvEXP2_old
+			 p8_KvEXP2 =  p8_KvEXP2_old
+			 p9_KvEXP2 =  p9_KvEXP2_old				
+			p10_KvEXP2 = p10_KvEXP2_old
+			p11_KvEXP2 = p11_KvEXP2_old
+			p12_KvEXP2 = p12_KvEXP2_old
+			p13_KvEXP2 = p13_KvEXP2_old
+			p14_KvEXP2 = p14_KvEXP2_old
+			p15_KvEXP2 = p15_KvEXP2_old
+			p16_KvEXP2 = p16_KvEXP2_old			
+			
+			diff_curr = diff_old
+			
+		}
+		
+		printf("[%d] %7d diff_curr = %7.2f diff_best = %7.2f exp_arg = %10.3f\n",kt_i,iter_cnt,diff_curr,diff_best,exp_arg)		
+		
+	} 						 ///////////// MAIN LOOP ///////////////
+	
+	fprint("%f\t%f\n",kt,diff_best)
+	
+	} //@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/**/	
+
+	wopen()
+
+	printf("Complete\nBest fit:\n")
+
+	
+		/////////////////////////////////
+		
+		gmax_KvEXP2 = gmax_KvEXP2_best
+		g_pas       = gmax_pas_best
+		//gbar_Kv		= gbar_Kv_best
+		gmax_CaL	= gmax_CaL_best	
+		eca			= eca_best
+		ek			= ek_best
+		e_pas		= e_pas_best
+	//	stim1.dur1 = start_time_best
+		stim1.del = start_time_best   //ms
+	//	stim2.del = start_time_best+1 //ms
+	//	stim3.del = start_time_best+2 //ms
+	//	stim4.del = start_time_best+3 //ms
+		
+		 p1_KvEXP2 =  p1_best
+		 p2_KvEXP2 =  p2_best
+		 p3_KvEXP2 =  p3_best
+		 p4_KvEXP2 =  p4_best
+		 p5_KvEXP2 =  p5_best
+		 p6_KvEXP2 =  p6_best
+		 p7_KvEXP2 =  p7_best
+		 p8_KvEXP2 =  p8_best
+		 p9_KvEXP2 =  p9_best
+		p10_KvEXP2 = p10_best
+		p11_KvEXP2 = p11_best		
+		p12_KvEXP2 = p12_best		
+		p13_KvEXP2 = p13_best		
+		p14_KvEXP2 = p14_best
+		p15_KvEXP2 = p15_best
+		p16_KvEXP2 = p16_best		
+		
+		
+		init()
+		single_run(25000+1.5*25000,1) // saving to file	
+		
+		diff_best = diff_curr
+		
+		
+		printf("gmax_KvEXP2 =\t%f\n",gmax_KvEXP2_best)
+		printf("g_pas =\t%f\n",gmax_pas_best)
+		printf("gmax_CaL =\t%f\n",gmax_CaL_best)
+		printf("eca =\t%f\n",eca_best)
+		printf("ek =\t%f\n",ek_best)
+		printf("e_pas =\t%f\n",e_pas_best)
+		printf("time =\t%f\n",start_time_best)
+		
+		printf(" p1 =\t%f\t p2= %f\n", p1_KvEXP2, p2_KvEXP2)
+		printf(" p3 =\t%f\t p4= %f\n", p3_KvEXP2, p4_KvEXP2)
+		printf(" p5 =\t%f\n", p5_KvEXP2)
+		printf(" p6 =\t%f\n", p6_KvEXP2)
+		printf(" p7 =\t%f\t p8= %f\n", p7_KvEXP2, p8_KvEXP2)
+		printf(" p9 =\t%f\tp10= %f\n", p9_KvEXP2,p10_KvEXP2)
+		printf("p11 =\t%f\tp12= %f\n",p11_KvEXP2,p12_KvEXP2)
+		printf("p13 =\t%f\tp14= %f\n",p13_KvEXP2,p14_KvEXP2)
+		printf("p15 =\t%f\tp16= %f\n",p15_KvEXP2,p16_KvEXP2)
+		//printf("gmax_KvEXP2 =\t%f\n",gmax_KvEXP2_best)
+		//printf("g_pas =\t%f\n",gmax_pas_best)		
+		
+		printf("diff_best = %f \n", diff_best)
+		
+
+
+quit()
